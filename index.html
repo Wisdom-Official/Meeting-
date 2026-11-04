@@ -37,7 +37,7 @@
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col pb-20 md:pb-0">
 
-    <!-- Top Navigation Header (Enhanced Professional & Fully Responsive UI/UX) -->
+    <!-- Top Navigation Header -->
     <header class="bg-white/95 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-30 shadow-sm transition-all">
         <div class="max-w-5xl mx-auto px-4 py-2.5 sm:py-3 flex items-center justify-between gap-3">
             
@@ -52,15 +52,13 @@
                 </div>
             </div>
 
-            <!-- Sync Indicator & Current Context Badges -->
+            <!-- Sync Indicator & Context Badges -->
             <div class="flex items-center space-x-2 shrink-0">
-                <!-- Connectivity Badge -->
                 <div id="syncBadge" class="flex items-center text-[10px] sm:text-xs bg-amber-50 text-amber-800 px-2.5 sm:px-3 py-1 rounded-full font-semibold border border-amber-200 shadow-sm transition-all">
                     <i class="fa-solid fa-wifi text-amber-500 mr-1.5 text-[10px] sm:text-xs" id="syncIcon"></i>
                     <span id="syncStatus">Offline Mode</span>
                 </div>
 
-                <!-- Scope/Context Badge -->
                 <div id="headerBadge" class="hidden sm:flex items-center text-xs bg-sky-50 text-sky-800 px-3 py-1 rounded-full font-medium border border-sky-200/80 shadow-sm">
                     <i class="fa-solid font-bold text-sky-600 mr-1.5 fa-sitemap"></i>
                     <span id="headerContextText">District Executive</span>
@@ -156,15 +154,35 @@
                 </div>
             </div>
 
-            <!-- Meetings Log -->
-            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <!-- PASSWORD PROTECTED ZONE MEETINGS LOG SECTION -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden transition-all">
                 <div class="p-4 border-b border-slate-100 flex items-center justify-between">
                     <h3 class="text-sm font-bold text-slate-800 flex items-center gap-2">
                         <i class="fa-solid fa-clipboard-list text-sky-600"></i>
                         <span>Zone Level Meetings</span>
                     </h3>
+                    <button type="button" id="mandalamMeetingLockBadge" onclick="toggleMeetingsLock()" class="text-[10px] font-semibold text-rose-600 bg-rose-50 px-2.5 py-1 rounded-full border border-rose-200 flex items-center gap-1 hover:opacity-80 transition-all cursor-pointer">
+                        <i class="fa-solid fa-lock"></i> Protected
+                    </button>
                 </div>
-                <div class="divide-y divide-slate-100" id="mandalamMeetingLogs">
+
+                <!-- Protected Overlay / Password Lock Screen for Zone Meetings -->
+                <div id="mandalamMeetingsLockOverlay" class="p-8 text-center bg-slate-50/80 border-b border-slate-100 flex flex-col items-center justify-center">
+                    <div class="w-12 h-12 bg-sky-100 text-sky-600 rounded-2xl flex items-center justify-center mb-3 text-xl shadow-sm">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h4 class="text-sm font-bold text-slate-800">Protected Section</h4>
+                    <p class="text-xs text-slate-500 max-w-xs mt-1 mb-4">Meeting log details are restricted. Enter master password to view details.</p>
+                    <form onsubmit="verifyMeetingsPassword(event, 'mandalam')" class="flex flex-col sm:flex-row items-center gap-2 w-full max-w-xs">
+                        <input type="password" id="mandalamLogPassInput" placeholder="Enter Access Password" required class="w-full px-3.5 py-2 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-sky-500 outline-none text-center sm:text-left">
+                        <button type="submit" class="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-xl text-xs font-semibold shrink-0 shadow transition-all">
+                            Unlock
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Actual Protected Content Area -->
+                <div id="mandalamMeetingsContent" class="divide-y divide-slate-100 hidden">
                     <div class="p-6 text-center text-slate-400 text-xs">No meetings logged for this Zone yet.</div>
                 </div>
             </div>
@@ -208,15 +226,35 @@
                 </div>
             </div>
 
-            <!-- Meetings History -->
-            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <!-- PASSWORD PROTECTED UNIT MEETINGS HISTORY & MINUTES BOOK -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden transition-all">
                 <div class="p-4 border-b border-slate-100 flex items-center justify-between">
                     <h3 class="text-sm font-bold text-slate-800 flex items-center gap-2">
                         <i class="fa-solid fa-clock-rotate-left text-sky-600"></i>
                         <span>Unit Meetings & Minutes Book</span>
                     </h3>
+                    <button type="button" id="unitMeetingLockBadge" onclick="toggleMeetingsLock()" class="text-[10px] font-semibold text-rose-600 bg-rose-50 px-2.5 py-1 rounded-full border border-rose-200 flex items-center gap-1 hover:opacity-80 transition-all cursor-pointer">
+                        <i class="fa-solid fa-lock"></i> Protected
+                    </button>
                 </div>
-                <div class="divide-y divide-slate-100" id="unitMeetingLogs">
+
+                <!-- Protected Overlay / Password Lock Screen for Unit Meetings -->
+                <div id="unitMeetingsLockOverlay" class="p-8 text-center bg-slate-50/80 border-b border-slate-100 flex flex-col items-center justify-center">
+                    <div class="w-12 h-12 bg-sky-100 text-sky-600 rounded-2xl flex items-center justify-center mb-3 text-xl shadow-sm">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h4 class="text-sm font-bold text-slate-800">Protected Section</h4>
+                    <p class="text-xs text-slate-500 max-w-xs mt-1 mb-4">Meeting minutes & photos are locked. Enter password to unlock.</p>
+                    <form onsubmit="verifyMeetingsPassword(event, 'unit')" class="flex flex-col sm:flex-row items-center gap-2 w-full max-w-xs">
+                        <input type="password" id="unitLogPassInput" placeholder="Enter Access Password" required class="w-full px-3.5 py-2 text-xs border border-slate-300 rounded-xl focus:ring-2 focus:ring-sky-500 outline-none text-center sm:text-left">
+                        <button type="submit" class="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-xl text-xs font-semibold shrink-0 shadow transition-all">
+                            Unlock
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Actual Protected Content Area -->
+                <div id="unitMeetingsContent" class="divide-y divide-slate-100 hidden">
                     <!-- Dynamic Unit Meetings -->
                 </div>
             </div>
@@ -226,10 +264,8 @@
 
     <!-- FULL-SCREEN IMAGE PREVIEW & ZOOM MODAL -->
     <div id="imageViewerModal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 flex flex-col items-center justify-between p-4 hidden">
-        <!-- Controls Top Header -->
         <div class="w-full max-w-5xl flex items-center justify-between text-white z-10 py-2">
             <span id="imageViewerTitle" class="text-xs font-semibold tracking-wider text-slate-300">Image Preview</span>
-            
             <div class="flex items-center space-x-2">
                 <button type="button" onclick="zoomImage(0.25)" class="w-9 h-9 bg-slate-800 hover:bg-slate-700 text-white rounded-xl flex items-center justify-center transition-all shadow-lg" title="Zoom In">
                     <i class="fa-solid fa-magnifying-glass-plus"></i>
@@ -246,12 +282,10 @@
             </div>
         </div>
 
-        <!-- Zoomable Image Container -->
         <div class="flex-1 w-full flex items-center justify-center overflow-hidden cursor-grab active:cursor-grabbing relative" onclick="if(event.target === this) closeModal('imageViewerModal')">
             <img id="modalPreviewImage" src="" alt="Full Preview" class="max-h-[82vh] max-w-full object-contain transition-transform duration-200 select-none shadow-2xl rounded-lg" style="transform: scale(1);">
         </div>
 
-        <!-- Footer Info -->
         <div class="text-slate-400 text-[11px] pb-2 z-10 flex items-center gap-2">
             <i class="fa-solid fa-circle-info"></i>
             <span>Use buttons or scroll to zoom. Tap outside or Back button to close.</span>
@@ -360,16 +394,14 @@
                     </div>
                 </div>
 
-                <!-- Secretariat Attendance 3-State Selector (Green, Yellow, Red) -->
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Member Attendance Status</label>
                     <p class="text-[11px] text-slate-500 mb-2">Click status for each member: Green (Present), Yellow (Excused/Late), Red (Leave).</p>
                     <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 max-h-56 overflow-y-auto space-y-2.5" id="attendanceList">
-                        <!-- Items dynamically populated -->
+                        <!-- Dynamic Attendance -->
                     </div>
                 </div>
 
-                <!-- Dynamic Attendance Summary Badge Grid -->
                 <div class="grid grid-cols-3 gap-2 bg-slate-100 p-3 rounded-xl">
                     <div class="text-center">
                         <span class="block text-[10px] text-emerald-700 font-bold uppercase">Present</span>
@@ -385,7 +417,6 @@
                     </div>
                 </div>
 
-                <!-- Minutes Uploads & Live Camera Options -->
                 <div class="space-y-4 pt-1">
                     <!-- Meeting Photo -->
                     <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
@@ -395,13 +426,11 @@
                         </label>
                         
                         <div class="flex items-center gap-2">
-                            <!-- Direct Camera Capture Trigger -->
                             <button type="button" onclick="document.getElementById('meetingCamInput').click()" class="bg-sky-600 hover:bg-sky-700 text-white px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm">
                                 <i class="fa-solid fa-camera"></i> Take Photo
                             </button>
                             <input type="file" id="meetingCamInput" accept="image/*" capture="environment" onchange="handleFilePreview(this, 'meetingPhotoPreview')" class="hidden">
 
-                            <!-- Standard File Browse Button -->
                             <label class="bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer flex items-center gap-1.5 transition-all shadow-sm">
                                 <i class="fa-solid fa-upload text-slate-400"></i> Browse File
                                 <input type="file" id="meetingPhotoInput" accept="image/*" onchange="handleFilePreview(this, 'meetingPhotoPreview')" class="hidden">
@@ -418,13 +447,11 @@
                         </label>
                         
                         <div class="flex items-center gap-2">
-                            <!-- Direct Camera Capture Trigger -->
                             <button type="button" onclick="document.getElementById('minutesCamInput').click()" class="bg-sky-600 hover:bg-sky-700 text-white px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm">
                                 <i class="fa-solid fa-camera"></i> Take Photo
                             </button>
                             <input type="file" id="minutesCamInput" accept="image/*" capture="environment" onchange="handleFilePreview(this, 'minutesPhotoPreview')" class="hidden">
 
-                            <!-- Standard File Browse Button -->
                             <label class="bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer flex items-center gap-1.5 transition-all shadow-sm">
                                 <i class="fa-solid fa-upload text-slate-400"></i> Browse File
                                 <input type="file" id="minutesPhotoInput" accept="image/*" onchange="handleFilePreview(this, 'minutesPhotoPreview')" class="hidden">
@@ -482,6 +509,9 @@
         const CLOUD_NAME = "guqmosat";
         const UPLOAD_PRESET = "dvtnmwnx";
 
+        // REQUIRED LOG AREA MASTER PASSWORD
+        const MEETINGS_LOG_MASTER_PASSWORD = "admin@_shadil";
+
         // District Hierarchy
         const DISTRICT_DATA = [
             { name: "BALUSSERY", units: ["PUTHOOR VATTAM", "BALUSSERI TOWN", "BALUSSERI", "ARAPPEEDLKA", "VATTOLI BAZAR", "NANMINDA 14", "POONATH", "KOORACHUND"] },
@@ -500,14 +530,14 @@
             "POONOOR_MANDALAM": "PNR#8203", "POONOOR_THALAYAD": "TLD#3301", "POONOOR_THACHAMPOYIL": "TCP#3302", "POONOOR_VALLIYOTH": "VLY#3303", "POONOOR_EKAROOL": "EKL#3304", "POONOOR_POONOOR": "PNR#3305", "POONOOR_KEDAVOOR": "KDV#3306", "POONOOR_KOLIKKAL": "KLK#3307",
             "KOYILANDY_MANDALAM": "KYL#8204", "KOYILANDY_KATTIL PEEDIKA": "KTP#3401", "KOYILANDY_KAPPAD": "KPD#3402", "KOYILANDY_CHANGOOTUKAVU": "CGK#3403", "KOYILANDY_KOYILANDY": "KYL#3404", "KOYILANDY_KOLLAM": "KLM#3405", "KOYILANDY_MUDADI": "MDD#3406", "KOYILANDY_ARIKKULAM": "AKL#3407", "KOYILANDY_KAVUMVATTAM": "KVM#3408",
             "PERAMBRA_MANDALAM": "PRM#8205", "PERAMBRA_PANTHIRIKKARA": "PTK#3501", "PERAMBRA_PERAMBRA": "PRM#3502", "PERAMBRA_ERAVTTOOR": "EVT#3503", "PERAMBRA_KADIYANGAD PALAM": "KGP#3504", "PERAMBRA_NOCHAD": "NCD#3505", "PERAMBRA_MEPPAYYUR": "MPY#3506", "PERAMBRA_EAST PERAMBRA": "EPR#3507",
-            "PAYYOLI_MANDALAM": "PYL#8206", "PAYYOLI_PAYYOLI": "PYL#3601", "PAYYOLI_THURAYUR": "TRY#3602", "PAYYOLI_THIKKODI": "TKD#3603", "PAYYOLI_NANDI": "NDI#3604", "PAYYOLI_KEEZHUR": "KZR#3605",
-            "VATAKARA_MANDALAM": "VTK#8207", "VATAKARA_VATAKARA": "VTK#3701", "VATAKARA_MANIYOOR": "MNY#3702", "VATAKARA_ORKATTERI": "OKR#3703", "VATAKARA_AZHIYUR": "AZH#3704"
+            "PAYYOLI_MANDALAM": "PYL#8206", "PAYYOLI_PAYYOLI": "PYL#3601", "PAYYOLI_THURAYUR": "TRY#3602", "PAYYOLI_THIKKODI": "TKD#3603", "PAYYOLI_NANDI": "NDI#3604", "PAYYOLI_KEEZHUR": "KZR#3605", "VATAKARA_MANDALAM": "VTK#8207", "VATAKARA_VATAKARA": "VTK#3701", "VATAKARA_MANIYOOR": "MNY#3702", "VATAKARA_ORKATTERI": "OKR#3703", "VATAKARA_AZHIYUR": "AZH#3704"
         };
 
         // Local Stores
         let membersStore = JSON.parse(localStorage.getItem('ws_members_store')) || {};
         let meetingsStore = JSON.parse(localStorage.getItem('ws_meetings_store')) || {};
         let authenticatedKeys = JSON.parse(localStorage.getItem('ws_authenticated_keys')) || {};
+        let meetingLogsUnlocked = localStorage.getItem('ws_meetings_unlocked') === 'true';
 
         let currentMandalam = null;
         let currentUnit = null;
@@ -520,6 +550,7 @@
             localStorage.setItem('ws_members_store', JSON.stringify(membersStore));
             localStorage.setItem('ws_meetings_store', JSON.stringify(meetingsStore));
             localStorage.setItem('ws_authenticated_keys', JSON.stringify(authenticatedKeys));
+            localStorage.setItem('ws_meetings_unlocked', meetingLogsUnlocked);
         }
 
         // Initialize Firebase Anonymous Auth
@@ -547,7 +578,6 @@
             }
         }
 
-        // Listen for Firebase Updates
         function listenFirestoreSync() {
             try {
                 const docRef = doc(db, 'artifacts', 'meeting-49a0e', 'public', 'data', 'calicut_north', 'store');
@@ -565,7 +595,6 @@
             }
         }
 
-        // Sync local changes to cloud
         async function syncToCloud() {
             if (!auth.currentUser) return;
             try {
@@ -580,7 +609,6 @@
             }
         }
 
-        // Cloudinary Image Upload Helper
         async function uploadToCloudinary(file) {
             if (!file) return null;
             const formData = new FormData();
@@ -600,7 +628,77 @@
             }
         }
 
-        // Image Full-Screen Viewer & Zoom Handlers
+        // TOGGLE MEETINGS LOCK STATUS (LOCK IF UNLOCKED)
+        window.toggleMeetingsLock = function() {
+            if (meetingLogsUnlocked) {
+                meetingLogsUnlocked = false;
+                saveLocalState();
+                updateMeetingsLockUI();
+                alertModal("Locked", "Meeting log section is now re-locked.");
+            }
+        };
+
+        // VERIFY MEETINGS LOG MASTER PASSWORD
+        window.verifyMeetingsPassword = function(e, scope) {
+            e.preventDefault();
+            const inputId = scope === 'mandalam' ? 'mandalamLogPassInput' : 'unitLogPassInput';
+            const enteredPass = document.getElementById(inputId).value.trim();
+
+            if (enteredPass === MEETINGS_LOG_MASTER_PASSWORD) {
+                meetingLogsUnlocked = true;
+                saveLocalState();
+                updateMeetingsLockUI();
+                alertModal("Access Granted", "Meetings & Minutes log unlocked successfully!");
+            } else {
+                alertModal("Access Denied", "Incorrect password! Access restricted.");
+            }
+        };
+
+        function updateMeetingsLockUI() {
+            const mandalamOverlay = document.getElementById('mandalamMeetingsLockOverlay');
+            const mandalamContent = document.getElementById('mandalamMeetingsContent');
+            const mandalamBadge = document.getElementById('mandalamMeetingLockBadge');
+
+            const unitOverlay = document.getElementById('unitMeetingsLockOverlay');
+            const unitContent = document.getElementById('unitMeetingsContent');
+            const unitBadge = document.getElementById('unitMeetingLockBadge');
+
+            if (meetingLogsUnlocked) {
+                if (mandalamOverlay) mandalamOverlay.classList.add('hidden');
+                if (mandalamContent) mandalamContent.classList.remove('hidden');
+                if (mandalamBadge) {
+                    mandalamBadge.className = "text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200 flex items-center gap-1 hover:opacity-80 transition-all cursor-pointer";
+                    mandalamBadge.innerHTML = `<i class="fa-solid fa-lock-open"></i> Unlocked`;
+                    mandalamBadge.title = "Click to lock again";
+                }
+
+                if (unitOverlay) unitOverlay.classList.add('hidden');
+                if (unitContent) unitContent.classList.remove('hidden');
+                if (unitBadge) {
+                    unitBadge.className = "text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200 flex items-center gap-1 hover:opacity-80 transition-all cursor-pointer";
+                    unitBadge.innerHTML = `<i class="fa-solid fa-lock-open"></i> Unlocked`;
+                    unitBadge.title = "Click to lock again";
+                }
+            } else {
+                if (mandalamOverlay) mandalamOverlay.classList.remove('hidden');
+                if (mandalamContent) mandalamContent.classList.add('hidden');
+                if (mandalamBadge) {
+                    mandalamBadge.className = "text-[10px] font-semibold text-rose-600 bg-rose-50 px-2.5 py-1 rounded-full border border-rose-200 flex items-center gap-1 hover:opacity-80 transition-all cursor-pointer";
+                    mandalamBadge.innerHTML = `<i class="fa-solid fa-lock"></i> Protected`;
+                    mandalamBadge.title = "Protected section";
+                }
+
+                if (unitOverlay) unitOverlay.classList.remove('hidden');
+                if (unitContent) unitContent.classList.add('hidden');
+                if (unitBadge) {
+                    unitBadge.className = "text-[10px] font-semibold text-rose-600 bg-rose-50 px-2.5 py-1 rounded-full border border-rose-200 flex items-center gap-1 hover:opacity-80 transition-all cursor-pointer";
+                    unitBadge.innerHTML = `<i class="fa-solid fa-lock"></i> Protected`;
+                    unitBadge.title = "Protected section";
+                }
+            }
+        }
+
+        // Image Full-Screen Viewer
         window.openImageViewer = function(imgSrc, title = 'Image Preview') {
             const modal = document.getElementById('imageViewerModal');
             const img = document.getElementById('modalPreviewImage');
@@ -625,7 +723,6 @@
             img.style.transform = `scale(${currentZoomScale})`;
         };
 
-        // Password Authentication with LocalStorage Persistence
         window.promptAuth = function(type, callback) {
             const entityKey = type === 'mandalam' ? `${currentMandalam.name}_MANDALAM` : `${currentMandalam.name}_${currentUnit}`;
             
@@ -651,14 +748,14 @@
                 closeModal('authModal');
                 if (pendingAction && pendingAction.callback) pendingAction.callback();
             } else {
-                alertModal("Access Denied", "Incorrect password! Please enter the valid password for this unit/zone.");
+                alertModal("Access Denied", "Incorrect password! Please enter the valid password.");
             }
         };
 
-        // Render Initial Mandalams
         window.onload = function() {
             renderMandalams();
             document.getElementById('meetingDate').value = new Date().toISOString().split('T')[0];
+            updateMeetingsLockUI();
         };
 
         function renderMandalams() {
@@ -715,6 +812,7 @@
             renderUnits();
             renderMandalamMembers();
             renderMandalamMeetings();
+            updateMeetingsLockUI();
             switchView('mandalam');
         }
 
@@ -760,6 +858,7 @@
 
             renderUnitMembers();
             renderUnitMeetings();
+            updateMeetingsLockUI();
             switchView('unit');
         }
 
@@ -824,7 +923,6 @@
             });
         }
 
-        // PROMPT DELETE MEMBER WITH MANDATORY 'EXIT' PASSWORD
         window.promptDeleteMember = function(key, idx, name) {
             pendingDeleteInfo = { key, idx, name };
             document.getElementById('deletePasswordInput').value = '';
@@ -846,7 +944,7 @@
                     refreshCurrentView();
                 }
             } else {
-                alertModal("Access Denied", "Incorrect password for member deletion! The password is EXIT.");
+                alertModal("Access Denied", "Incorrect password for member deletion!");
             }
         };
 
@@ -877,7 +975,6 @@
             refreshCurrentView();
         };
 
-        // OPEN MEETING LOG & BUILD 3-STATE ATTENDANCE SELECTOR
         window.openMeetingModal = function(type) {
             const uKey = type === 'mandalam' ? `${currentMandalam.name}_MANDALAM` : `${currentMandalam.name}_${currentUnit}`;
             const members = membersStore[uKey] || [];
@@ -903,7 +1000,6 @@
                             <span class="text-[10px] font-semibold text-sky-700 bg-sky-50 px-2 py-0.5 rounded ml-2 border border-sky-100">${m.role}</span>
                         </div>
 
-                        <!-- 3 Tri-state Color-Coded Buttons: Green (Present), Yellow (Late), Red (Leave) -->
                         <div class="flex items-center space-x-1.5" id="btnGroup-${idx}">
                             <button type="button" onclick="setAttendanceStatus(${idx}, '${m.name}', 'present')" title="Present" class="att-btn active-present w-7 h-7 rounded-lg border flex items-center justify-center text-xs font-bold shadow-sm">
                                 <i class="fa-solid fa-check"></i>
@@ -917,9 +1013,8 @@
                         </div>
                     </div>
 
-                    <!-- Leave Reason Input Field (Visible on Red / Leave selection) -->
                     <div id="reasonBox-${idx}" class="hidden pt-1">
-                        <input type="text" id="reasonInput-${idx}" oninput="updateLeaveReason('${m.name}', this.value)" placeholder="Specify leave reason (e.g., Medical, Out of station)..." class="w-full px-2.5 py-1.5 text-xs border border-rose-300 rounded-lg outline-none focus:ring-1 focus:ring-rose-500 bg-rose-50/40 text-slate-700">
+                        <input type="text" id="reasonInput-${idx}" oninput="updateLeaveReason('${m.name}', this.value)" placeholder="Specify leave reason..." class="w-full px-2.5 py-1.5 text-xs border border-rose-300 rounded-lg outline-none focus:ring-1 focus:ring-rose-500 bg-rose-50/40 text-slate-700">
                     </div>
                 `;
                 list.appendChild(item);
@@ -987,11 +1082,9 @@
             const lateCount = document.getElementById('cntLate').innerText;
             const leaveCount = document.getElementById('cntLeave').innerText;
 
-            // Pick photo files from either Camera or File input
             const mPhotoInput = document.getElementById('meetingPhotoInput').files[0] || document.getElementById('meetingCamInput').files[0];
             const minPhotoInput = document.getElementById('minutesPhotoInput').files[0] || document.getElementById('minutesCamInput').files[0];
 
-            // Upload directly to Cloudinary
             const meetingPhotoUrl = await uploadToCloudinary(mPhotoInput) || (document.getElementById('meetingPhotoPreview').src.startsWith('data:') ? document.getElementById('meetingPhotoPreview').src : null);
             const minutesPhotoUrl = await uploadToCloudinary(minPhotoInput) || (document.getElementById('minutesPhotoPreview').src.startsWith('data:') ? document.getElementById('minutesPhotoPreview').src : null);
 
@@ -1022,7 +1115,7 @@
         function renderMandalamMeetings() {
             const mKey = `${currentMandalam.name}_MANDALAM`;
             const meetings = meetingsStore[mKey] || [];
-            const container = document.getElementById('mandalamMeetingLogs');
+            const container = document.getElementById('mandalamMeetingsContent');
             container.innerHTML = '';
 
             if (meetings.length === 0) {
@@ -1071,7 +1164,7 @@
         function renderUnitMeetings() {
             const uKey = `${currentMandalam.name}_${currentUnit}`;
             const meetings = meetingsStore[uKey] || [];
-            const container = document.getElementById('unitMeetingLogs');
+            const container = document.getElementById('unitMeetingsContent');
             container.innerHTML = '';
 
             if (meetings.length === 0) {
@@ -1128,6 +1221,7 @@
             } else {
                 renderMandalams();
             }
+            updateMeetingsLockUI();
         }
 
         window.handleFilePreview = function(input, imgId) {
