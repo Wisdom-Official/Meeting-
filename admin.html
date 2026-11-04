@@ -1,0 +1,309 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calicut North - Executive Dashboard</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Font - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen">
+
+    <!-- PASSWORD AUTHENTICATION SCREEN -->
+    <div id="dashboardAuth" class="fixed inset-0 bg-slate-900 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl text-center space-y-4">
+            <div class="w-14 h-14 bg-sky-50 text-sky-600 rounded-2xl flex items-center justify-center mx-auto text-2xl">
+                <i class="fa-solid fa-chart-line"></i>
+            </div>
+            <div>
+                <h2 class="text-lg font-bold text-slate-800">Controller Dashboard</h2>
+                <p class="text-xs text-slate-500 mt-1">Calicut North Executive Portal</p>
+            </div>
+            <form onsubmit="unlockDashboard(event)" class="space-y-3 pt-2">
+                <input type="password" id="dashPass" required placeholder="Enter Controller Password" class="w-full px-4 py-2.5 text-center text-xs tracking-widest border border-slate-300 rounded-xl focus:ring-2 focus:ring-sky-500 outline-none">
+                <button type="submit" class="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl shadow">Access Analytics</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MAIN DASHBOARD CONTENT -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-30">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <img src="studentlogo.jpg" alt="WISDOM Students" class="h-8 object-contain rounded" onerror="this.onerror=null; this.src='https://placehold.co/180x50/0f172a/ffffff?text=WISDOM+students';">
+                <div class="border-l border-slate-200 pl-3">
+                    <h1 class="text-xs font-bold text-slate-900 uppercase">Calicut North</h1>
+                    <p class="text-[10px] text-slate-500">Executive Controller Analytics</p>
+                </div>
+            </div>
+            <a href="index.html" class="text-xs font-semibold text-sky-600 bg-sky-50 px-3 py-1.5 rounded-xl border border-sky-100 hover:bg-sky-100 flex items-center gap-1.5">
+                <i class="fa-solid fa-house text-sky-600"></i> Secretariat Portal
+            </a>
+        </div>
+    </header>
+
+    <div class="max-w-6xl mx-auto px-4 py-6 space-y-6">
+
+        <!-- Dynamic Stat Grid -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+                <span class="text-[11px] text-slate-400 font-semibold uppercase">Total Mandalams</span>
+                <div class="text-2xl font-bold text-slate-800 mt-1">7</div>
+            </div>
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+                <span class="text-[11px] text-slate-400 font-semibold uppercase">Total Units</span>
+                <div class="text-2xl font-bold text-slate-800 mt-1">44</div>
+            </div>
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+                <span class="text-[11px] text-slate-400 font-semibold uppercase">Total Execs Registered</span>
+                <div id="statMembers" class="text-2xl font-bold text-sky-600 mt-1">0</div>
+            </div>
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+                <span class="text-[11px] text-slate-400 font-semibold uppercase">Total Meetings Conducted</span>
+                <div id="statMeetings" class="text-2xl font-bold text-emerald-600 mt-1">0</div>
+            </div>
+        </div>
+
+        <!-- ZONE & UNIT FILTER PANEL -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-4">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-3 border-b border-slate-100">
+                <h3 class="text-sm font-bold text-slate-800 flex items-center gap-2">
+                    <i class="fa-solid fa-filter text-sky-600"></i>
+                    <span>Filter Meetings & Executive Data</span>
+                </h3>
+                <div class="flex flex-wrap items-center gap-2">
+                    <select id="filterZone" onchange="onZoneFilterChange()" class="px-3 py-1.5 text-xs border border-slate-300 rounded-xl bg-white focus:ring-2 focus:ring-sky-500 outline-none">
+                        <option value="ALL">All Zones (Mandalams)</option>
+                        <option value="BALUSSERY">BALUSSERY</option>
+                        <option value="NADAPURAM">NADAPURAM</option>
+                        <option value="POONOOR">POONOOR</option>
+                        <option value="KOYILANDY">KOYILANDY</option>
+                        <option value="PERAMBRA">PERAMBRA</option>
+                        <option value="PAYYOLI">PAYYOLI</option>
+                        <option value="VATAKARA">VATAKARA</option>
+                    </select>
+                    <select id="filterUnit" onchange="applyFilters()" class="px-3 py-1.5 text-xs border border-slate-300 rounded-xl bg-white focus:ring-2 focus:ring-sky-500 outline-none">
+                        <option value="ALL">All Units</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Filtered Meetings Feed -->
+            <div class="space-y-3">
+                <h4 class="text-xs font-bold text-slate-700 uppercase flex items-center justify-between">
+                    <span>Logged Meetings Report</span>
+                    <span id="filteredMtgCount" class="text-[10px] bg-sky-50 text-sky-600 px-2 py-0.5 rounded font-bold">0 Found</span>
+                </h4>
+                <div id="filteredMeetingsContainer" class="space-y-3 max-h-[500px] overflow-y-auto pr-1">
+                    <div class="p-8 text-center text-slate-400 text-xs">Loading meeting records...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mandalams Activity Overview -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-4">
+            <h3 class="text-sm font-bold text-slate-800">Mandalam Breakdown</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs border-collapse">
+                    <thead>
+                        <tr class="bg-slate-50 border-b border-slate-200 text-slate-500 uppercase text-[10px]">
+                            <th class="p-3">Mandalam</th>
+                            <th class="p-3">Units</th>
+                            <th class="p-3">Members Recorded</th>
+                            <th class="p-3">Meetings Logged</th>
+                        </tr>
+                    </thead>
+                    <tbody id="summaryTableBody" class="divide-y divide-slate-100">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT LOGIC -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBhy9C1LoM-VBTcEGJVyZ5SGpbUg6fBdB8",
+            authDomain: "meeting-49a0e.firebaseapp.com",
+            projectId: "meeting-49a0e",
+            storageBucket: "meeting-49a0e.firebasestorage.app",
+            messagingSenderId: "716083133615",
+            appId: "1:716083133615:web:86b1f9b28d31c81b25a85a"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        const DASHBOARD_PASSWORD = "CTRL#CLT9900";
+
+        const DISTRICT_MAP = {
+            "BALUSSERY": ["PUTHOOR VATTAM", "BALUSSERI TOWN", "BALUSSERI", "ARAPPEEDLKA", "VATTOLI BAZAR", "NANMINDA 14", "POONATH", "KOORACHUND"],
+            "NADAPURAM": ["THUNERI", "NADAPURAM", "VANIMEL", "KALLAACHI", "CHEEKKONNU", "THANNEER PANTHAL"],
+            "POONOOR": ["THALAYAD", "THACHAMPOYIL", "VALLIYOTH", "EKAROOL", "POONOOR", "KEDAVOOR", "KOLIKKAL"],
+            "KOYILANDY": ["KATTIL PEEDIKA", "KAPPAD", "CHANGOOTUKAVU", "KOYILANDY", "KOLLAM", "MUDADI", "ARIKKULAM", "KAVUMVATTAM"],
+            "PERAMBRA": ["PANTHIRIKKARA", "PERAMBRA", "ERAVTTOOR", "KADIYANGAD PALAM", "NOCHAD", "MEPPAYYUR", "EAST PERAMBRA"],
+            "PAYYOLI": ["PAYYOLI", "THURAYUR", "THIKKODI", "NANDI", "KEEZHUR"],
+            "VATAKARA": ["VATAKARA", "MANIYOOR", "ORKATTERI", "AZHIYUR"]
+        };
+
+        let rawMembersStore = {};
+        let rawMeetingsStore = {};
+
+        window.unlockDashboard = function(e) {
+            e.preventDefault();
+            const pass = document.getElementById('dashPass').value.trim();
+            if(pass === DASHBOARD_PASSWORD) {
+                document.getElementById('dashboardAuth').classList.add('hidden');
+                loadStats();
+            } else {
+                alert("Incorrect Dashboard Controller Password!");
+            }
+        };
+
+        function loadStats() {
+            signInAnonymously(auth).then(() => {
+                const docRef = doc(db, 'artifacts', 'meeting-49a0e', 'public', 'data', 'calicut_north', 'store');
+                onSnapshot(docRef, (snap) => {
+                    if (snap.exists()) {
+                        const data = snap.data();
+                        rawMembersStore = data.membersStore || {};
+                        rawMeetingsStore = data.meetingsStore || {};
+                    } else {
+                        rawMembersStore = JSON.parse(localStorage.getItem('ws_members_store')) || {};
+                        rawMeetingsStore = JSON.parse(localStorage.getItem('ws_meetings_store')) || {};
+                    }
+                    computeAndRender();
+                    applyFilters();
+                }, () => {
+                    rawMembersStore = JSON.parse(localStorage.getItem('ws_members_store')) || {};
+                    rawMeetingsStore = JSON.parse(localStorage.getItem('ws_meetings_store')) || {};
+                    computeAndRender();
+                    applyFilters();
+                });
+            });
+        }
+
+        window.onZoneFilterChange = function() {
+            const z = document.getElementById('filterZone').value;
+            const uSelect = document.getElementById('filterUnit');
+            uSelect.innerHTML = '<option value="ALL">All Units</option>';
+
+            if (z !== 'ALL' && DISTRICT_MAP[z]) {
+                DISTRICT_MAP[z].forEach(u => {
+                    const opt = document.createElement('option');
+                    opt.value = u;
+                    opt.innerText = u;
+                    uSelect.appendChild(opt);
+                });
+            }
+            applyFilters();
+        };
+
+        window.applyFilters = function() {
+            const selectedZone = document.getElementById('filterZone').value;
+            const selectedUnit = document.getElementById('filterUnit').value;
+
+            const container = document.getElementById('filteredMeetingsContainer');
+            container.innerHTML = '';
+
+            let matches = [];
+
+            Object.keys(rawMeetingsStore).forEach(key => {
+                const parts = key.split('_');
+                const mandalamName = parts[0];
+                const unitName = parts[1];
+
+                if (selectedZone !== 'ALL' && mandalamName !== selectedZone) return;
+                if (selectedUnit !== 'ALL' && unitName !== selectedUnit) return;
+
+                const list = rawMeetingsStore[key] || [];
+                list.forEach(m => {
+                    matches.push({ ...m, mandalam: mandalamName, unit: unitName === 'MANDALAM' ? 'Mandalam Level' : unitName });
+                });
+            });
+
+            document.getElementById('filteredMtgCount').innerText = `${matches.length} Found`;
+
+            if (matches.length === 0) {
+                container.innerHTML = `<div class="p-8 text-center text-slate-400 text-xs">No meetings found matching your filter selection.</div>`;
+                return;
+            }
+
+            matches.forEach(m => {
+                const card = document.createElement('div');
+                card.className = "p-4 bg-slate-50/80 rounded-xl border border-slate-200 space-y-2";
+                card.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] font-bold text-sky-700 bg-sky-100 px-2 py-0.5 rounded">${m.mandalam}</span>
+                            <span class="text-[10px] font-bold text-slate-600 bg-slate-200 px-2 py-0.5 rounded">${m.unit}</span>
+                            <span class="text-xs font-bold text-slate-800 ml-1"><i class="fa-solid fa-location-dot text-rose-500 mr-1"></i> ${m.place}</span>
+                        </div>
+                        <span class="text-[11px] font-semibold text-slate-500 bg-white px-2.5 py-0.5 rounded-full border border-slate-200">${m.date}</span>
+                    </div>
+                    <p class="text-xs text-slate-600">${m.notes || 'No notes entered.'}</p>
+                    <div class="flex items-center gap-4 text-[11px] text-slate-500">
+                        <span class="text-emerald-600 font-semibold"><i class="fa-solid fa-user-check mr-1"></i> Present: ${m.attendedCount}</span>
+                    </div>
+                    ${m.meetingPhoto || m.minutesPhoto ? `
+                        <div class="flex gap-2 pt-2">
+                            ${m.meetingPhoto ? `<a href="${m.meetingPhoto}" target="_blank"><img src="${m.meetingPhoto}" class="h-16 w-24 object-cover rounded-lg border"></a>` : ''}
+                            ${m.minutesPhoto ? `<a href="${m.minutesPhoto}" target="_blank"><img src="${m.minutesPhoto}" class="h-16 w-24 object-cover rounded-lg border"></a>` : ''}
+                        </div>
+                    ` : ''}
+                `;
+                container.appendChild(card);
+            });
+        };
+
+        function computeAndRender() {
+            let totalMem = 0;
+            let totalMtg = 0;
+
+            Object.values(rawMembersStore).forEach(arr => totalMem += arr.length);
+            Object.values(rawMeetingsStore).forEach(arr => totalMtg += arr.length);
+
+            document.getElementById('statMembers').innerText = totalMem;
+            document.getElementById('statMeetings').innerText = totalMtg;
+
+            const tbody = document.getElementById('summaryTableBody');
+            tbody.innerHTML = '';
+
+            Object.keys(DISTRICT_MAP).forEach(mName => {
+                const uList = DISTRICT_MAP[mName];
+                let mMembers = (rawMembersStore[`${mName}_MANDALAM`] || []).length;
+                let mMeetings = (rawMeetingsStore[`${mName}_MANDALAM`] || []).length;
+
+                uList.forEach(u => {
+                    const uKey = `${mName}_${u}`;
+                    mMembers += (rawMembersStore[uKey] || []).length;
+                    mMeetings += (rawMeetingsStore[uKey] || []).length;
+                });
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="p-3 font-bold text-slate-800">${mName}</td>
+                    <td class="p-3 text-slate-500">${uList.length} Units</td>
+                    <td class="p-3 text-sky-600 font-semibold">${mMembers} Members</td>
+                    <td class="p-3 text-emerald-600 font-semibold">${mMeetings} Meetings</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+    </script>
+</body>
+</html>
