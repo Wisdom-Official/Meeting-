@@ -294,41 +294,72 @@
                     </div>
                 </div>
 
-                <!-- Secretariat Attendance Checkbox List -->
+                <!-- Secretariat Attendance Status List (Present / Absent / Leave with reason) -->
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Secretariat & Executive Attendance (Tick if Present)</label>
-                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 max-h-48 overflow-y-auto space-y-2" id="attendanceList">
-                        <!-- Checkboxes populated via JS -->
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Secretariat Attendance & Leave Details</label>
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 max-h-60 overflow-y-auto space-y-2.5" id="attendanceList">
+                        <!-- Populated dynamically with Present, Absent, and Leave dropdown/reasons -->
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-2 bg-slate-100 p-3 rounded-xl">
-                    <div class="text-center">
+                <!-- Attendance Counters -->
+                <div class="grid grid-cols-3 gap-2 bg-slate-100 p-3 rounded-xl text-center">
+                    <div>
                         <span class="block text-[10px] text-slate-500 font-bold uppercase">Present</span>
                         <span id="cntPresent" class="text-lg font-bold text-emerald-600">0</span>
                     </div>
-                    <div class="text-center">
+                    <div>
                         <span class="block text-[10px] text-slate-500 font-bold uppercase">Absent</span>
                         <span id="cntAbsent" class="text-lg font-bold text-rose-600">0</span>
                     </div>
+                    <div>
+                        <span class="block text-[10px] text-slate-500 font-bold uppercase">Leave</span>
+                        <span id="cntLeave" class="text-lg font-bold text-amber-600">0</span>
+                    </div>
                 </div>
 
-                <!-- Minutes Uploads -->
-                <div class="space-y-3">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">
-                            <i class="fa-solid fa-camera text-sky-600 mr-1"></i> Meeting Photo
+                <!-- Photos Section (Camera direct capture & File upload option) -->
+                <div class="space-y-4 pt-1">
+                    <!-- Meeting Photo -->
+                    <div class="bg-slate-50 border border-slate-200 p-3.5 rounded-xl space-y-2">
+                        <label class="block text-xs font-bold text-slate-800 uppercase flex items-center justify-between">
+                            <span><i class="fa-solid fa-camera text-sky-600 mr-1.5"></i> Meeting Photo</span>
                         </label>
-                        <input type="file" id="meetingPhotoInput" accept="image/*" onchange="handleFilePreview(this, 'meetingPhotoPreview')" class="w-full text-xs text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-sky-50 file:text-sky-700 hover:file:bg-sky-100">
-                        <img id="meetingPhotoPreview" class="mt-2 h-24 rounded-lg border object-cover hidden">
+                        <div class="flex gap-2">
+                            <!-- Direct Camera Capture Input -->
+                            <input type="file" id="cameraMeetingInput" accept="image/*" capture="environment" onchange="handleFilePreview(this, 'meetingPhotoPreview')" class="hidden">
+                            <button type="button" onclick="document.getElementById('cameraMeetingInput').click()" class="flex-1 py-2 px-3 bg-sky-600 hover:bg-sky-700 text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 shadow-sm transition-all">
+                                <i class="fa-solid fa-camera"></i> Take Photo
+                            </button>
+
+                            <!-- Gallery Upload Input -->
+                            <input type="file" id="uploadMeetingInput" accept="image/*" onchange="handleFilePreview(this, 'meetingPhotoPreview')" class="hidden">
+                            <button type="button" onclick="document.getElementById('uploadMeetingInput').click()" class="flex-1 py-2 px-3 bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 shadow-sm transition-all">
+                                <i class="fa-solid fa-folder-open text-amber-500"></i> Upload File
+                            </button>
+                        </div>
+                        <img id="meetingPhotoPreview" class="h-28 w-full object-cover rounded-lg border hidden">
                     </div>
 
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 uppercase mb-1">
-                            <i class="fa-solid fa-book-open text-sky-600 mr-1"></i> Minutes Book Photo / Document
+                    <!-- Minutes Book Photo -->
+                    <div class="bg-slate-50 border border-slate-200 p-3.5 rounded-xl space-y-2">
+                        <label class="block text-xs font-bold text-slate-800 uppercase flex items-center justify-between">
+                            <span><i class="fa-solid fa-book-open text-sky-600 mr-1.5"></i> Minutes Book Photo</span>
                         </label>
-                        <input type="file" id="minutesPhotoInput" accept="image/*" onchange="handleFilePreview(this, 'minutesPhotoPreview')" class="w-full text-xs text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200">
-                        <img id="minutesPhotoPreview" class="mt-2 h-24 rounded-lg border object-cover hidden">
+                        <div class="flex gap-2">
+                            <!-- Direct Camera Capture Input -->
+                            <input type="file" id="cameraMinutesInput" accept="image/*" capture="environment" onchange="handleFilePreview(this, 'minutesPhotoPreview')" class="hidden">
+                            <button type="button" onclick="document.getElementById('cameraMinutesInput').click()" class="flex-1 py-2 px-3 bg-sky-600 hover:bg-sky-700 text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 shadow-sm transition-all">
+                                <i class="fa-solid fa-camera"></i> Take Photo
+                            </button>
+
+                            <!-- Gallery Upload Input -->
+                            <input type="file" id="uploadMinutesInput" accept="image/*" onchange="handleFilePreview(this, 'minutesPhotoPreview')" class="hidden">
+                            <button type="button" onclick="document.getElementById('uploadMinutesInput').click()" class="flex-1 py-2 px-3 bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 shadow-sm transition-all">
+                                <i class="fa-solid fa-folder-open text-amber-500"></i> Upload File
+                            </button>
+                        </div>
+                        <img id="minutesPhotoPreview" class="h-28 w-full object-cover rounded-lg border hidden">
                     </div>
                 </div>
 
@@ -402,9 +433,11 @@
             "VATAKARA_MANDALAM": "VTK#8207", "VATAKARA_VATAKARA": "VTK#3701", "VATAKARA_MANIYOOR": "MNY#3702", "VATAKARA_ORKATTERI": "OKR#3703", "VATAKARA_AZHIYUR": "AZH#3704"
         };
 
-        // Local Offline Store
+        // Local Stores
         let membersStore = JSON.parse(localStorage.getItem('ws_members_store')) || {};
         let meetingsStore = JSON.parse(localStorage.getItem('ws_meetings_store')) || {};
+        // Store saved authentication keys directly on device so user enters password only ONCE
+        let authenticatedKeys = JSON.parse(localStorage.getItem('ws_authenticated_keys')) || {};
 
         let currentMandalam = null;
         let currentUnit = null;
@@ -413,6 +446,7 @@
         function saveLocalState() {
             localStorage.setItem('ws_members_store', JSON.stringify(membersStore));
             localStorage.setItem('ws_meetings_store', JSON.stringify(meetingsStore));
+            localStorage.setItem('ws_authenticated_keys', JSON.stringify(authenticatedKeys));
         }
 
         // Initialize Firebase Anonymous Auth
@@ -493,11 +527,17 @@
             }
         }
 
-        // Password Authentication
+        // Password Authentication (Persistent locally on mobile device)
         window.promptAuth = function(type, callback) {
             const entityKey = type === 'mandalam' ? `${currentMandalam.name}_MANDALAM` : `${currentMandalam.name}_${currentUnit}`;
-            pendingAction = { key: entityKey, callback };
+            
+            // Check if user has ALREADY entered password once on this mobile device
+            if (authenticatedKeys[entityKey]) {
+                callback();
+                return;
+            }
 
+            pendingAction = { key: entityKey, callback };
             document.getElementById('authPasswordInput').value = '';
             document.getElementById('authModalTitle').innerText = type === 'mandalam' ? `${currentMandalam.name} Password` : `${currentUnit} Password`;
             document.getElementById('authModal').classList.remove('hidden');
@@ -509,6 +549,10 @@
             const correctPass = PASSWORDS[pendingAction.key];
 
             if (inputPass === correctPass) {
+                // Store authentication token so user doesn't need to re-type password again on this device
+                authenticatedKeys[pendingAction.key] = true;
+                saveLocalState();
+
                 closeModal('authModal');
                 if (pendingAction && pendingAction.callback) pendingAction.callback();
             } else {
@@ -731,18 +775,38 @@
             const list = document.getElementById('attendanceList');
             list.innerHTML = '';
             
-            members.forEach((m) => {
-                const label = document.createElement('label');
-                label.className = "flex items-center justify-between text-xs p-2.5 rounded-lg border border-slate-200 bg-white hover:bg-sky-50 cursor-pointer transition-colors";
-                label.innerHTML = `
-                    <div class="flex items-center space-x-2.5">
-                        <input type="checkbox" onchange="updateAttendanceCounts()" class="att-checkbox w-4 h-4 text-sky-600 rounded focus:ring-sky-500 border-slate-300">
-                        <span class="font-medium text-slate-800">${m.name}</span>
+            members.forEach((m, i) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = "p-2.5 rounded-xl border border-slate-200 bg-white space-y-2";
+                itemDiv.innerHTML = `
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <div class="flex items-center space-x-2">
+                            <span class="font-semibold text-xs text-slate-800">${m.name}</span>
+                            <span class="text-[9px] font-semibold text-sky-700 bg-sky-50 px-1.5 py-0.5 rounded border border-sky-100">${m.role}</span>
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <select onchange="handleStatusChange(${i})" id="statusSelect_${i}" class="att-status-select px-2 py-1 text-xs font-semibold rounded-lg border border-slate-300 bg-slate-50 outline-none focus:ring-1 focus:ring-sky-500">
+                                <option value="Present" class="text-emerald-600">Present (ഹാജർ)</option>
+                                <option value="Absent" class="text-rose-600">Absent (അസാന്നിദ്ധ്യം)</option>
+                                <option value="Leave" class="text-amber-600">Leave (ലീവ്)</option>
+                            </select>
+                        </div>
                     </div>
-                    <span class="text-[10px] font-semibold text-sky-700 bg-sky-50 px-2 py-0.5 rounded border border-sky-100">${m.role}</span>
+                    <!-- Leave Reason Input Box (Hidden by default unless 'Leave' is selected) -->
+                    <div id="leaveReasonBox_${i}" class="hidden pt-1">
+                        <input type="text" id="leaveReason_${i}" placeholder="ലീവ് ആയ കാരണം രേഖപ്പെടുത്തുക (Reason for Leave)..." class="w-full text-xs px-3 py-1.5 border border-amber-300 bg-amber-50/50 rounded-lg outline-none focus:ring-1 focus:ring-amber-500 text-slate-700">
+                    </div>
                 `;
-                list.appendChild(label);
+                list.appendChild(itemDiv);
             });
+
+            // Reset image previews and file inputs
+            document.getElementById('cameraMeetingInput').value = '';
+            document.getElementById('uploadMeetingInput').value = '';
+            document.getElementById('cameraMinutesInput').value = '';
+            document.getElementById('uploadMinutesInput').value = '';
+            document.getElementById('meetingPhotoPreview').classList.add('hidden');
+            document.getElementById('minutesPhotoPreview').classList.add('hidden');
 
             updateAttendanceCounts();
             document.getElementById('meetingModalTitle').innerText = type === 'mandalam' ? `Mandalam Meeting Log` : `Unit Meeting Log (${currentUnit})`;
@@ -750,12 +814,29 @@
             document.getElementById('meetingModal').classList.remove('hidden');
         };
 
+        window.handleStatusChange = function(index) {
+            const status = document.getElementById(`statusSelect_${index}`).value;
+            const reasonBox = document.getElementById(`leaveReasonBox_${index}`);
+            
+            if (status === 'Leave') {
+                reasonBox.classList.remove('hidden');
+            } else {
+                reasonBox.classList.add('hidden');
+            }
+            updateAttendanceCounts();
+        };
+
         window.updateAttendanceCounts = function() {
-            const checkboxes = document.querySelectorAll('.att-checkbox');
-            let p = 0, a = 0;
-            checkboxes.forEach(c => { if(c.checked) p++; else a++; });
+            const selects = document.querySelectorAll('.att-status-select');
+            let p = 0, a = 0, l = 0;
+            selects.forEach(s => { 
+                if(s.value === 'Present') p++; 
+                else if(s.value === 'Absent') a++;
+                else if(s.value === 'Leave') l++;
+            });
             document.getElementById('cntPresent').innerText = p;
             document.getElementById('cntAbsent').innerText = a;
+            document.getElementById('cntLeave').innerText = l;
         };
 
         window.saveMeetingSubmit = async function(e) {
@@ -766,14 +847,37 @@
 
             const type = document.getElementById('meetingModal').getAttribute('data-type');
             const uKey = type === 'mandalam' ? `${currentMandalam.name}_MANDALAM` : `${currentMandalam.name}_${currentUnit}`;
+            const members = membersStore[uKey] || [];
 
             const date = document.getElementById('meetingDate').value;
             const place = document.getElementById('meetingPlace').value;
             const notes = document.getElementById('meetingNotes').value;
-            const attendedCount = document.getElementById('cntPresent').innerText;
 
-            const mPhotoInput = document.getElementById('meetingPhotoInput').files[0];
-            const minPhotoInput = document.getElementById('minutesPhotoInput').files[0];
+            const cntPresent = document.getElementById('cntPresent').innerText;
+            const cntAbsent = document.getElementById('cntAbsent').innerText;
+            const cntLeave = document.getElementById('cntLeave').innerText;
+
+            // Collect attendance breakdown with leave reasons
+            const attendanceDetails = [];
+            members.forEach((m, idx) => {
+                const statusSelect = document.getElementById(`statusSelect_${idx}`);
+                if (statusSelect) {
+                    const status = statusSelect.value;
+                    const reasonInput = document.getElementById(`leaveReason_${idx}`);
+                    const leaveReason = (status === 'Leave' && reasonInput) ? reasonInput.value.trim() : '';
+
+                    attendanceDetails.push({
+                        name: m.name,
+                        role: m.role,
+                        status: status,
+                        leaveReason: leaveReason
+                    });
+                }
+            });
+
+            // Handle Camera or File Upload input priority
+            const mPhotoInput = document.getElementById('cameraMeetingInput').files[0] || document.getElementById('uploadMeetingInput').files[0];
+            const minPhotoInput = document.getElementById('cameraMinutesInput').files[0] || document.getElementById('uploadMinutesInput').files[0];
 
             // Upload directly to Cloudinary
             const meetingPhotoUrl = await uploadToCloudinary(mPhotoInput) || (document.getElementById('meetingPhotoPreview').src.startsWith('data:') ? document.getElementById('meetingPhotoPreview').src : null);
@@ -784,7 +888,10 @@
                 date,
                 place,
                 notes,
-                attendedCount,
+                cntPresent,
+                cntAbsent,
+                cntLeave,
+                attendanceDetails,
                 meetingPhoto: meetingPhotoUrl,
                 minutesPhoto: minutesPhotoUrl
             });
@@ -796,7 +903,7 @@
             submitBtn.innerHTML = `<span>Submit Minutes</span>`;
 
             closeModal('meetingModal');
-            alertModal("Success", "Meeting minutes & photos uploaded and saved successfully!");
+            alertModal("Success", "Meeting details, leave reasons, & photos saved successfully!");
             refreshCurrentView();
         };
 
@@ -813,18 +920,43 @@
 
             meetings.forEach(mt => {
                 const div = document.createElement('div');
-                div.className = "p-4 space-y-2";
+                div.className = "p-4 space-y-2.5";
+                
+                // Format attendance counts
+                const pres = mt.cntPresent ?? (mt.attendedCount || 0);
+                const abs = mt.cntAbsent ?? 0;
+                const lea = mt.cntLeave ?? 0;
+
+                // Format leave list if any
+                const leaves = (mt.attendanceDetails || []).filter(a => a.status === 'Leave');
+
                 div.innerHTML = `
                     <div class="flex items-center justify-between">
                         <span class="text-xs font-bold text-slate-800"><i class="fa-solid fa-location-dot text-rose-500 mr-1"></i> ${mt.place}</span>
                         <span class="text-[11px] font-semibold text-slate-500 bg-slate-100 px-2.5 py-0.5 rounded-full">${mt.date}</span>
                     </div>
                     <p class="text-xs text-slate-600">${mt.notes || 'No detailed notes provided.'}</p>
-                    <div class="flex items-center gap-3 pt-1 text-[11px] text-slate-500">
-                        <span><i class="fa-solid fa-user-check text-emerald-600 mr-1"></i> Present: ${mt.attendedCount}</span>
+                    
+                    <div class="flex flex-wrap items-center gap-2 pt-1 text-[11px]">
+                        <span class="bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-md font-semibold border border-emerald-200"><i class="fa-solid fa-user-check mr-1"></i> Present: ${pres}</span>
+                        <span class="bg-rose-50 text-rose-700 px-2 py-0.5 rounded-md font-semibold border border-rose-200"><i class="fa-solid fa-user-xmark mr-1"></i> Absent: ${abs}</span>
+                        <span class="bg-amber-50 text-amber-700 px-2 py-0.5 rounded-md font-semibold border border-amber-200"><i class="fa-solid fa-clock-rotate-left mr-1"></i> Leave: ${lea}</span>
                     </div>
+
+                    ${leaves.length > 0 ? `
+                        <div class="bg-amber-50/60 border border-amber-200 rounded-xl p-2.5 space-y-1">
+                            <span class="text-[10px] font-bold text-amber-800 uppercase block">ലീവ് വിവരങ്ങൾ (Leave Reasons):</span>
+                            ${leaves.map(l => `
+                                <div class="text-xs text-slate-700 flex flex-wrap gap-1">
+                                    <span class="font-semibold text-amber-900">• ${l.name}:</span>
+                                    <span class="italic text-slate-600">${l.leaveReason || 'കാരണം രേഖപ്പെടുത്തിയിട്ടില്ല'}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+
                     ${mt.meetingPhoto || mt.minutesPhoto ? `
-                        <div class="flex gap-2 pt-2">
+                        <div class="flex gap-2 pt-1">
                             ${mt.meetingPhoto ? `<a href="${mt.meetingPhoto}" target="_blank"><img src="${mt.meetingPhoto}" class="h-16 w-20 object-cover rounded-lg border"></a>` : ''}
                             ${mt.minutesPhoto ? `<a href="${mt.minutesPhoto}" target="_blank"><img src="${mt.minutesPhoto}" class="h-16 w-20 object-cover rounded-lg border"></a>` : ''}
                         </div>
@@ -847,18 +979,43 @@
 
             meetings.forEach(mt => {
                 const div = document.createElement('div');
-                div.className = "p-4 space-y-2";
+                div.className = "p-4 space-y-2.5";
+
+                // Format attendance counts
+                const pres = mt.cntPresent ?? (mt.attendedCount || 0);
+                const abs = mt.cntAbsent ?? 0;
+                const lea = mt.cntLeave ?? 0;
+
+                // Format leave list if any
+                const leaves = (mt.attendanceDetails || []).filter(a => a.status === 'Leave');
+
                 div.innerHTML = `
                     <div class="flex items-center justify-between">
                         <span class="text-xs font-bold text-slate-800"><i class="fa-solid fa-location-dot text-rose-500 mr-1"></i> ${mt.place}</span>
                         <span class="text-[11px] font-semibold text-slate-500 bg-slate-100 px-2.5 py-0.5 rounded-full">${mt.date}</span>
                     </div>
                     <p class="text-xs text-slate-600">${mt.notes || 'No detailed notes provided.'}</p>
-                    <div class="flex items-center gap-3 pt-1 text-[11px] text-slate-500">
-                        <span><i class="fa-solid fa-user-check text-emerald-600 mr-1"></i> Present: ${mt.attendedCount}</span>
+                    
+                    <div class="flex flex-wrap items-center gap-2 pt-1 text-[11px]">
+                        <span class="bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-md font-semibold border border-emerald-200"><i class="fa-solid fa-user-check mr-1"></i> Present: ${pres}</span>
+                        <span class="bg-rose-50 text-rose-700 px-2 py-0.5 rounded-md font-semibold border border-rose-200"><i class="fa-solid fa-user-xmark mr-1"></i> Absent: ${abs}</span>
+                        <span class="bg-amber-50 text-amber-700 px-2 py-0.5 rounded-md font-semibold border border-amber-200"><i class="fa-solid fa-clock-rotate-left mr-1"></i> Leave: ${lea}</span>
                     </div>
+
+                    ${leaves.length > 0 ? `
+                        <div class="bg-amber-50/60 border border-amber-200 rounded-xl p-2.5 space-y-1">
+                            <span class="text-[10px] font-bold text-amber-800 uppercase block">ലീവ് വിവരങ്ങൾ (Leave Reasons):</span>
+                            ${leaves.map(l => `
+                                <div class="text-xs text-slate-700 flex flex-wrap gap-1">
+                                    <span class="font-semibold text-amber-900">• ${l.name}:</span>
+                                    <span class="italic text-slate-600">${l.leaveReason || 'കാരണം രേഖപ്പെടുത്തിയിട്ടില്ല'}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+
                     ${mt.meetingPhoto || mt.minutesPhoto ? `
-                        <div class="flex gap-2 pt-2">
+                        <div class="flex gap-2 pt-1">
                             ${mt.meetingPhoto ? `<a href="${mt.meetingPhoto}" target="_blank"><img src="${mt.meetingPhoto}" class="h-16 w-20 object-cover rounded-lg border"></a>` : ''}
                             ${mt.minutesPhoto ? `<a href="${mt.minutesPhoto}" target="_blank"><img src="${mt.minutesPhoto}" class="h-16 w-20 object-cover rounded-lg border"></a>` : ''}
                         </div>
