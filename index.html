@@ -37,24 +37,31 @@
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col pb-20 md:pb-0">
 
-    <!-- Top Navigation Header -->
-    <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
-        <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
-            <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateTo('home')">
-                <img src="studentlogo.jpg" alt="WISDOM Students Logo" class="h-8 md:h-10 object-contain rounded-md" onerror="this.onerror=null; this.src='https://placehold.co/180x50/0f172a/ffffff?text=WISDOM+students';">
-                <div class="border-l border-slate-200 pl-3">
-                    <h1 class="text-xs font-bold text-slate-900 uppercase tracking-wider">Calicut North</h1>
-                    <p class="text-[10px] text-slate-500">Secretariat Management</p>
+    <!-- Top Navigation Header (Enhanced Professional & Fully Responsive UI/UX) -->
+    <header class="bg-white/95 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-30 shadow-sm transition-all">
+        <div class="max-w-5xl mx-auto px-4 py-2.5 sm:py-3 flex items-center justify-between gap-3">
+            
+            <!-- Brand Logo & Context Title -->
+            <div class="flex items-center space-x-3 cursor-pointer group min-w-0" onclick="navigateTo('home')">
+                <div class="p-1 rounded-xl bg-slate-50 border border-slate-100 group-hover:border-sky-200 transition-all shrink-0">
+                    <img src="studentlogo.jpg" alt="WISDOM Students Logo" class="h-8 sm:h-9 md:h-10 w-auto object-contain rounded-lg" onerror="this.onerror=null; this.src='https://placehold.co/180x50/0f172a/ffffff?text=WISDOM+students';">
+                </div>
+                <div class="border-l border-slate-200 pl-2.5 sm:pl-3 truncate">
+                    <h1 class="text-xs sm:text-sm font-extrabold text-slate-900 uppercase tracking-wider truncate group-hover:text-sky-600 transition-colors">Calicut North</h1>
+                    <p class="text-[10px] sm:text-xs text-slate-500 font-medium truncate">Secretariat Management</p>
                 </div>
             </div>
 
-            <!-- Sync Indicator & Current Context -->
-            <div class="flex items-center space-x-2">
-                <div id="syncBadge" class="flex items-center text-[10px] bg-amber-50 text-amber-800 px-2.5 py-1 rounded-full font-semibold border border-amber-200">
-                    <i class="fa-solid fa-wifi text-amber-500 mr-1.5" id="syncIcon"></i>
+            <!-- Sync Indicator & Current Context Badges -->
+            <div class="flex items-center space-x-2 shrink-0">
+                <!-- Connectivity Badge -->
+                <div id="syncBadge" class="flex items-center text-[10px] sm:text-xs bg-amber-50 text-amber-800 px-2.5 sm:px-3 py-1 rounded-full font-semibold border border-amber-200 shadow-sm transition-all">
+                    <i class="fa-solid fa-wifi text-amber-500 mr-1.5 text-[10px] sm:text-xs" id="syncIcon"></i>
                     <span id="syncStatus">Offline Mode</span>
                 </div>
-                <div id="headerBadge" class="hidden sm:flex items-center text-xs bg-sky-50 text-sky-800 px-3 py-1 rounded-full font-medium border border-sky-200">
+
+                <!-- Scope/Context Badge -->
+                <div id="headerBadge" class="hidden sm:flex items-center text-xs bg-sky-50 text-sky-800 px-3 py-1 rounded-full font-medium border border-sky-200/80 shadow-sm">
                     <i class="fa-solid font-bold text-sky-600 mr-1.5 fa-sitemap"></i>
                     <span id="headerContextText">District Executive</span>
                 </div>
@@ -71,7 +78,7 @@
                 <i class="fa-solid fa-house text-slate-400"></i> Home
             </button>
             <span class="text-slate-300 hidden" id="bc1-sep">/</span>
-            <button id="bc-mandalam" onclick="switchView('mandalam')" class="font-medium hover:text-sky-600 text-slate-800 hidden">Mandalam</button>
+            <button id="bc-mandalam" onclick="switchView('mandalam')" class="font-medium hover:text-sky-600 text-slate-800 hidden">Zone</button>
             <span class="text-slate-300 hidden" id="bc2-sep">/</span>
             <span id="bc-unit" class="font-semibold text-sky-600 hidden">Unit</span>
         </nav>
@@ -81,8 +88,8 @@
             <div class="bg-gradient-to-r from-sky-900 via-slate-900 to-sky-950 text-white p-6 rounded-2xl shadow-lg relative overflow-hidden">
                 <div class="relative z-10 max-w-xl">
                     <span class="bg-sky-500/20 text-sky-300 border border-sky-400/30 text-[11px] font-semibold px-2.5 py-0.5 rounded-full uppercase tracking-wider">Calicut North District</span>
-                    <h2 class="text-2xl font-bold mt-2">7 Mandalam Secretariats</h2>
-                    <p class="text-slate-300 text-xs mt-1 leading-relaxed">Select a Mandalam to manage Secretariat & Executive members, record meeting details, upload minutes photos, and synchronize data seamless online or offline.</p>
+                    <h2 class="text-2xl font-bold mt-2">7 Zone Secretariats</h2>
+                    <p class="text-slate-300 text-xs mt-1 leading-relaxed">Select a Zone to manage Secretariat & Executive members, record meeting details, upload minutes photos, and synchronize data seamlessly online or offline.</p>
                 </div>
                 <div class="absolute -right-6 -bottom-10 opacity-10 text-9xl">
                     <i class="fa-solid fa-building-columns"></i>
@@ -91,11 +98,11 @@
 
             <div>
                 <h3 class="text-sm font-bold text-slate-700 uppercase tracking-wider mb-3 px-1 flex items-center justify-between">
-                    <span>Mandalams (Zones)</span>
+                    <span>Zones</span>
                     <span class="text-xs font-normal text-slate-500">7 Total</span>
                 </h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="mandalamGrid">
-                    <!-- Dynamic Mandalam Cards -->
+                    <!-- Dynamic Zone Cards -->
                 </div>
             </div>
         </section>
@@ -105,19 +112,19 @@
             <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <div class="flex items-center gap-2">
-                        <span class="text-xs font-bold text-sky-600 bg-sky-50 px-2 py-0.5 rounded uppercase">Mandalam</span>
+                        <span class="text-xs font-bold text-sky-600 bg-sky-50 px-2 py-0.5 rounded uppercase">Zone</span>
                         <h2 class="text-xl font-bold text-slate-800" id="mandalamTitle">Balussery</h2>
                     </div>
-                    <p class="text-slate-500 text-xs mt-1">Manage Mandalam Executives and Unit level meeting reports</p>
+                    <p class="text-slate-500 text-xs mt-1">Manage Zone Executives and Unit level meeting reports</p>
                 </div>
                 <div class="flex flex-wrap items-center gap-2">
                     <button onclick="promptAuth('mandalam', () => openSecretariatModal('mandalam'))" class="bg-slate-900 hover:bg-slate-800 text-white px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 shadow transition-all">
                         <i class="fa-solid fa-user-plus text-sky-400"></i>
-                        <span>Mandalam Secretariat</span>
+                        <span>Zone Secretariat</span>
                     </button>
                     <button onclick="promptAuth('mandalam', () => openMeetingModal('mandalam'))" class="bg-sky-600 hover:bg-sky-700 text-white px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 shadow transition-all">
                         <i class="fa-solid fa-calendar-plus"></i>
-                        <span>New Mandalam Meeting</span>
+                        <span>New Zone Meeting</span>
                     </button>
                 </div>
             </div>
@@ -133,12 +140,12 @@
                 </div>
             </div>
 
-            <!-- Mandalam Secretariat Members -->
+            <!-- Zone Secretariat Members -->
             <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
                 <div class="flex items-center justify-between mb-4">
                     <h3 class="text-sm font-bold text-slate-800 flex items-center gap-2">
                         <i class="fa-solid fa-users text-sky-600"></i>
-                        <span>Mandalam Secretariat & Executive Members</span>
+                        <span>Zone Secretariat & Executive Members</span>
                     </h3>
                     <button onclick="promptAuth('mandalam', () => openSecretariatModal('mandalam'))" class="text-xs text-sky-600 font-semibold hover:underline flex items-center gap-1">
                         <i class="fa-solid fa-plus-circle"></i> Add Member
@@ -154,11 +161,11 @@
                 <div class="p-4 border-b border-slate-100 flex items-center justify-between">
                     <h3 class="text-sm font-bold text-slate-800 flex items-center gap-2">
                         <i class="fa-solid fa-clipboard-list text-sky-600"></i>
-                        <span>Mandalam Level Meetings</span>
+                        <span>Zone Level Meetings</span>
                     </h3>
                 </div>
                 <div class="divide-y divide-slate-100" id="mandalamMeetingLogs">
-                    <div class="p-6 text-center text-slate-400 text-xs">No meetings logged for this Mandalam yet.</div>
+                    <div class="p-6 text-center text-slate-400 text-xs">No meetings logged for this Zone yet.</div>
                 </div>
             </div>
         </section>
@@ -171,7 +178,7 @@
                         <span class="text-xs font-bold text-sky-600 bg-sky-50 px-2 py-0.5 rounded uppercase">Unit Dashboard</span>
                         <h2 class="text-xl font-bold text-slate-800" id="unitTitle">Puthoor Vattam</h2>
                     </div>
-                    <p class="text-slate-500 text-xs mt-1" id="unitSubtext">Under Mandalam Secretariat</p>
+                    <p class="text-slate-500 text-xs mt-1" id="unitSubtext">Under Zone Secretariat</p>
                 </div>
                 <div class="flex flex-wrap items-center gap-2">
                     <button onclick="promptAuth('unit', () => openSecretariatModal('unit'))" class="bg-slate-900 hover:bg-slate-800 text-white px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 shadow transition-all">
@@ -217,6 +224,40 @@
 
     </main>
 
+    <!-- FULL-SCREEN IMAGE PREVIEW & ZOOM MODAL -->
+    <div id="imageViewerModal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 flex flex-col items-center justify-between p-4 hidden">
+        <!-- Controls Top Header -->
+        <div class="w-full max-w-5xl flex items-center justify-between text-white z-10 py-2">
+            <span id="imageViewerTitle" class="text-xs font-semibold tracking-wider text-slate-300">Image Preview</span>
+            
+            <div class="flex items-center space-x-2">
+                <button type="button" onclick="zoomImage(0.25)" class="w-9 h-9 bg-slate-800 hover:bg-slate-700 text-white rounded-xl flex items-center justify-center transition-all shadow-lg" title="Zoom In">
+                    <i class="fa-solid fa-magnifying-glass-plus"></i>
+                </button>
+                <button type="button" onclick="zoomImage(-0.25)" class="w-9 h-9 bg-slate-800 hover:bg-slate-700 text-white rounded-xl flex items-center justify-center transition-all shadow-lg" title="Zoom Out">
+                    <i class="fa-solid fa-magnifying-glass-minus"></i>
+                </button>
+                <button type="button" onclick="resetZoomImage()" class="w-9 h-9 bg-slate-800 hover:bg-slate-700 text-white rounded-xl flex items-center justify-center transition-all shadow-lg" title="Reset Zoom">
+                    <i class="fa-solid fa-rotate-left"></i>
+                </button>
+                <button type="button" onclick="closeModal('imageViewerModal')" class="w-9 h-9 bg-rose-600 hover:bg-rose-700 text-white rounded-xl flex items-center justify-center transition-all shadow-lg ml-2" title="Close Preview">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Zoomable Image Container -->
+        <div class="flex-1 w-full flex items-center justify-center overflow-hidden cursor-grab active:cursor-grabbing relative" onclick="if(event.target === this) closeModal('imageViewerModal')">
+            <img id="modalPreviewImage" src="" alt="Full Preview" class="max-h-[82vh] max-w-full object-contain transition-transform duration-200 select-none shadow-2xl rounded-lg" style="transform: scale(1);">
+        </div>
+
+        <!-- Footer Info -->
+        <div class="text-slate-400 text-[11px] pb-2 z-10 flex items-center gap-2">
+            <i class="fa-solid fa-circle-info"></i>
+            <span>Use buttons or scroll to zoom. Tap outside or Back button to close.</span>
+        </div>
+    </div>
+
     <!-- AUTHENTICATION PASSCODE MODAL -->
     <div id="authModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-xl border border-slate-100">
@@ -233,6 +274,27 @@
                 <div class="flex gap-2 pt-1">
                     <button type="button" onclick="closeModal('authModal')" class="w-1/2 py-2 text-xs font-semibold text-slate-600 bg-slate-100 rounded-xl">Cancel</button>
                     <button type="submit" class="w-1/2 py-2 text-xs font-semibold text-white bg-slate-900 hover:bg-slate-800 rounded-xl shadow">Verify & Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MEMBER DELETE CONFIRMATION MODAL WITH PASSWORD -->
+    <div id="deleteMemberModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-xl border border-slate-100">
+            <div class="text-center">
+                <div class="w-12 h-12 bg-rose-50 text-rose-600 rounded-2xl flex items-center justify-center mx-auto mb-3 text-xl">
+                    <i class="fa-solid fa-user-minus"></i>
+                </div>
+                <h3 class="text-base font-bold text-slate-800">Confirm Member Deletion</h3>
+                <p class="text-xs text-slate-500 mt-1">Please enter the master deletion password (<span class="font-mono text-rose-600 font-bold">EXIT</span>) to delete this member.</p>
+            </div>
+            
+            <form onsubmit="handleDeleteMemberSubmit(event)" class="mt-4 space-y-3">
+                <input type="password" id="deletePasswordInput" required placeholder="Enter Delete Password" class="w-full px-4 py-2.5 text-center text-sm tracking-widest border border-rose-300 rounded-xl focus:ring-2 focus:ring-rose-500 outline-none uppercase">
+                <div class="flex gap-2 pt-1">
+                    <button type="button" onclick="closeModal('deleteMemberModal')" class="w-1/2 py-2 text-xs font-semibold text-slate-600 bg-slate-100 rounded-xl">Cancel</button>
+                    <button type="submit" class="w-1/2 py-2 text-xs font-semibold text-white bg-rose-600 hover:bg-rose-700 rounded-xl shadow">Delete Member</button>
                 </div>
             </form>
         </div>
@@ -345,7 +407,7 @@
                                 <input type="file" id="meetingPhotoInput" accept="image/*" onchange="handleFilePreview(this, 'meetingPhotoPreview')" class="hidden">
                             </label>
                         </div>
-                        <img id="meetingPhotoPreview" class="mt-2 h-24 rounded-lg border object-cover hidden">
+                        <img id="meetingPhotoPreview" class="mt-2 h-24 rounded-lg border object-cover hidden cursor-pointer" onclick="openImageViewer(this.src, 'Meeting Photo Preview')">
                     </div>
 
                     <!-- Minutes Book Photo -->
@@ -368,7 +430,7 @@
                                 <input type="file" id="minutesPhotoInput" accept="image/*" onchange="handleFilePreview(this, 'minutesPhotoPreview')" class="hidden">
                             </label>
                         </div>
-                        <img id="minutesPhotoPreview" class="mt-2 h-24 rounded-lg border object-cover hidden">
+                        <img id="minutesPhotoPreview" class="mt-2 h-24 rounded-lg border object-cover hidden cursor-pointer" onclick="openImageViewer(this.src, 'Minutes Book Photo')">
                     </div>
                 </div>
 
@@ -450,7 +512,9 @@
         let currentMandalam = null;
         let currentUnit = null;
         let pendingAction = null;
+        let pendingDeleteInfo = null;
         let tempAttendanceState = {};
+        let currentZoomScale = 1;
 
         function saveLocalState() {
             localStorage.setItem('ws_members_store', JSON.stringify(membersStore));
@@ -536,11 +600,35 @@
             }
         }
 
+        // Image Full-Screen Viewer & Zoom Handlers
+        window.openImageViewer = function(imgSrc, title = 'Image Preview') {
+            const modal = document.getElementById('imageViewerModal');
+            const img = document.getElementById('modalPreviewImage');
+            const titleEl = document.getElementById('imageViewerTitle');
+            
+            titleEl.innerText = title;
+            img.src = imgSrc;
+            currentZoomScale = 1;
+            img.style.transform = `scale(${currentZoomScale})`;
+            modal.classList.remove('hidden');
+        };
+
+        window.zoomImage = function(amount) {
+            const img = document.getElementById('modalPreviewImage');
+            currentZoomScale = Math.min(Math.max(0.5, currentZoomScale + amount), 4);
+            img.style.transform = `scale(${currentZoomScale})`;
+        };
+
+        window.resetZoomImage = function() {
+            const img = document.getElementById('modalPreviewImage');
+            currentZoomScale = 1;
+            img.style.transform = `scale(${currentZoomScale})`;
+        };
+
         // Password Authentication with LocalStorage Persistence
         window.promptAuth = function(type, callback) {
             const entityKey = type === 'mandalam' ? `${currentMandalam.name}_MANDALAM` : `${currentMandalam.name}_${currentUnit}`;
             
-            // Check if already authenticated on this device/browser
             if (authenticatedKeys[entityKey]) {
                 callback();
                 return;
@@ -699,7 +787,7 @@
                             <span class="text-[10px] font-semibold text-sky-600">${m.role}</span>
                         </div>
                     </div>
-                    <button onclick="promptAuth('mandalam', () => removeMemberDirectly('${mKey}', ${idx}))" class="text-slate-300 hover:text-rose-500 transition-colors p-1"><i class="fa-solid fa-trash-can text-xs"></i></button>
+                    <button onclick="promptDeleteMember('${mKey}', ${idx}, '${m.name}')" class="text-slate-300 hover:text-rose-500 transition-colors p-1"><i class="fa-solid fa-trash-can text-xs"></i></button>
                 `;
                 container.appendChild(el);
             });
@@ -730,17 +818,36 @@
                             ${m.phone ? `<p class="text-[10px] text-slate-400">${m.phone}</p>` : ''}
                         </div>
                     </div>
-                    <button onclick="promptAuth('unit', () => removeMemberDirectly('${uKey}', ${idx}))" class="text-slate-300 hover:text-rose-500 transition-colors p-1"><i class="fa-solid fa-trash-can text-xs"></i></button>
+                    <button onclick="promptDeleteMember('${uKey}', ${idx}, '${m.name}')" class="text-slate-300 hover:text-rose-500 transition-colors p-1"><i class="fa-solid fa-trash-can text-xs"></i></button>
                 `;
                 container.appendChild(el);
             });
         }
 
-        window.removeMemberDirectly = function(key, idx) {
-            membersStore[key].splice(idx, 1);
-            saveLocalState();
-            syncToCloud();
-            refreshCurrentView();
+        // PROMPT DELETE MEMBER WITH MANDATORY 'EXIT' PASSWORD
+        window.promptDeleteMember = function(key, idx, name) {
+            pendingDeleteInfo = { key, idx, name };
+            document.getElementById('deletePasswordInput').value = '';
+            document.getElementById('deleteMemberModal').classList.remove('hidden');
+        };
+
+        window.handleDeleteMemberSubmit = function(e) {
+            e.preventDefault();
+            const inputPass = document.getElementById('deletePasswordInput').value.trim();
+
+            if (inputPass.toUpperCase() === 'EXIT') {
+                if (pendingDeleteInfo) {
+                    const { key, idx } = pendingDeleteInfo;
+                    membersStore[key].splice(idx, 1);
+                    saveLocalState();
+                    syncToCloud();
+                    closeModal('deleteMemberModal');
+                    alertModal("Member Deleted", "The member has been successfully deleted.");
+                    refreshCurrentView();
+                }
+            } else {
+                alertModal("Access Denied", "Incorrect password for member deletion! The password is EXIT.");
+            }
         };
 
         window.openSecretariatModal = function(type) {
@@ -927,7 +1034,6 @@
                 const div = document.createElement('div');
                 div.className = "p-4 space-y-2.5";
                 
-                // Attendance details list rendering
                 let leaveInfoList = '';
                 if (mt.attendanceDetails) {
                     const absents = Object.entries(mt.attendanceDetails).filter(([_, v]) => v.status === 'leave');
@@ -953,8 +1059,8 @@
 
                     ${mt.meetingPhoto || mt.minutesPhoto ? `
                         <div class="flex gap-2 pt-2">
-                            ${mt.meetingPhoto ? `<a href="${mt.meetingPhoto}" target="_blank"><img src="${mt.meetingPhoto}" class="h-16 w-20 object-cover rounded-lg border"></a>` : ''}
-                            ${mt.minutesPhoto ? `<a href="${mt.minutesPhoto}" target="_blank"><img src="${mt.minutesPhoto}" class="h-16 w-20 object-cover rounded-lg border"></a>` : ''}
+                            ${mt.meetingPhoto ? `<img src="${mt.meetingPhoto}" onclick="openImageViewer('${mt.meetingPhoto}', 'Meeting Photo')" class="h-16 w-20 object-cover rounded-lg border cursor-pointer hover:opacity-90 hover:shadow transition-all" title="Click to view full image">` : ''}
+                            ${mt.minutesPhoto ? `<img src="${mt.minutesPhoto}" onclick="openImageViewer('${mt.minutesPhoto}', 'Minutes Book Photo')" class="h-16 w-20 object-cover rounded-lg border cursor-pointer hover:opacity-90 hover:shadow transition-all" title="Click to view full image">` : ''}
                         </div>
                     ` : ''}
                 `;
@@ -1002,8 +1108,8 @@
 
                     ${mt.meetingPhoto || mt.minutesPhoto ? `
                         <div class="flex gap-2 pt-2">
-                            ${mt.meetingPhoto ? `<a href="${mt.meetingPhoto}" target="_blank"><img src="${mt.meetingPhoto}" class="h-16 w-20 object-cover rounded-lg border"></a>` : ''}
-                            ${mt.minutesPhoto ? `<a href="${mt.minutesPhoto}" target="_blank"><img src="${mt.minutesPhoto}" class="h-16 w-20 object-cover rounded-lg border"></a>` : ''}
+                            ${mt.meetingPhoto ? `<img src="${mt.meetingPhoto}" onclick="openImageViewer('${mt.meetingPhoto}', 'Meeting Photo')" class="h-16 w-20 object-cover rounded-lg border cursor-pointer hover:opacity-90 hover:shadow transition-all" title="Click to view full image">` : ''}
+                            ${mt.minutesPhoto ? `<img src="${mt.minutesPhoto}" onclick="openImageViewer('${mt.minutesPhoto}', 'Minutes Book Photo')" class="h-16 w-20 object-cover rounded-lg border cursor-pointer hover:opacity-90 hover:shadow transition-all" title="Click to view full image">` : ''}
                         </div>
                     ` : ''}
                 `;
